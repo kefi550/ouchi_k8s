@@ -1,0 +1,31 @@
+repositories:
+  - name: influxdata
+    url: https://helm.influxdata.com/
+
+releases:
+  - name: pv
+    namespace: default
+    chart: ../pv
+    values:
+      - persistentVolume:
+          name: influxdb
+          size: 100Gi
+          storageClassName: local-path
+          hostSubPath: "influxdb2"
+  - name: influxdb2
+    namespace: influxdb
+    needs:
+      - default/pv
+    createNamespace: true
+    chart: influxdata/influxdb2
+    values:
+      - persistence:
+          existingClaim: influxb2
+          enabled: true
+          size: 100Gi
+          storageClass: local-path
+      - setDefaultUser:
+          existingSecret: influxdb2-auth
+      - ingress:
+          enabled: true
+          hostname: "influxdb.kefiwild.net"
