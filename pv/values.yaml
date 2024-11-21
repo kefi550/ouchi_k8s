@@ -1,0 +1,9 @@
+persistentVolume:
+  name: ""
+  size: ""
+  accessModes:
+    - ReadWriteOnce
+    - ReadWriteMany
+  reclaimPolicy: Retain
+  storageClassName: local-path
+  hostPath: "/mnt"
