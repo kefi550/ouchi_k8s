@@ -1,0 +1,25 @@
+apiVersion: k3d.io/v1alpha3
+kind: Simple
+name: nanase
+servers: 1
+agents: 2
+kubeAPI:
+  host: nanase.kefiwild.net
+  hostIP: 192.168.0.20
+volumes:
+  - volume: /home/kefi/nfs/k3d/volume:/mnt
+    nodeFilters:
+      - agent:*
+ports:
+  - port: 80:80 # host:cluster
+    nodeFilters:
+      - loadbalancer
+registries:
+  create:
+    name: nanase.kefiwild.net
+    host: 192.168.0.20
+    hostPort: "5000"
+  config: |
+    configs:
+      "nanase.kefiwild.net:5000":
+        insecure_skip_verify: true
