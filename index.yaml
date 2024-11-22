@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  pv-chart:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-22T17:01:49.189793656+09:00"
+    description: A Helm chart for Kubernetes
+    digest: a6089bd93fd83733bb6519c323ccca2fd4c7cdb935d8f88c50aeab3e315ccb22
+    name: pv-chart
+    type: application
+    urls:
+    - pv-chart-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-11-22T17:01:49.189563273+09:00"
