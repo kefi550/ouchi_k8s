@@ -1,0 +1,39 @@
+repositories:
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+
+releases:
+  - name: pv
+    namespace: default
+    chart: ../pv
+    values:
+      - persistentVolume:
+          name: grafana
+          size: 30Gi
+          storageClassName: local-path
+          hostSubPath: "grafana"
+  - name: grafana
+    namespace: grafana
+    needs:
+      - default/pv
+    createNamespace: true
+    chart: grafana/grafana
+    values:
+      - persistence:
+          enabled: true
+            # existingClaim: grafana
+          size: 30Gi
+          storageClassName: local-path
+          accessMode: ReadWriteMany
+          annotations:
+            helm.sh/resource-policy: keep
+      - admin:
+          existingSecret: grafana
+      - ingress:
+          enabled: true
+          hosts:
+            - grafana.kefiwild.net
+      - securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          runAsNonRoot: true
