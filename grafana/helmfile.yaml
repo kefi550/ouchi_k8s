@@ -21,14 +21,12 @@ releases:
     values:
       - persistence:
           enabled: true
-            # existingClaim: grafana
+          # existingClaim: grafana
           size: 30Gi
           storageClassName: local-path
           accessMode: ReadWriteMany
           annotations:
             helm.sh/resource-policy: keep
-      - admin:
-          existingSecret: grafana
       - ingress:
           enabled: true
           hosts:
@@ -37,3 +35,5 @@ releases:
           runAsUser: 1000
           runAsGroup: 1000
           runAsNonRoot: true
+      # - admin:
+      #     existingSecret: grafana
