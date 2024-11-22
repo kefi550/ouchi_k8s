@@ -9,6 +9,9 @@ k3d cluster create -c k3d_config.yaml
 
 - sealed-secret
 - influxdb
+- mysql-operator
+- prometheus
+- grafana
 
 ```
 helmfile apply
