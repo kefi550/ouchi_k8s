@@ -1,0 +1,39 @@
+repositories:
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+
+releases:
+  - name: pv
+    namespace: default
+    chart: ../pv
+    values:
+      - persistentVolume:
+          name: prometheus
+          size: 50Gi
+          storageClassName: local-path
+          hostSubPath: "prometheus"
+  - name: prometheus
+    namespace: prometheus
+    needs:
+      - default/pv
+    createNamespace: true
+    chart: prometheus-community/prometheus
+    values:
+      - persistentVolume:
+          enabled: true
+          size: 50Gi
+      - server:
+          ingress:
+            enabled: true
+            hosts:
+              - prometheus.kefiwild.net
+            ingressClassName: traefik
+      - alertmanager:
+          enabled: false
+      - extraScrapeConfigs: |
+          - job_name: 'baremetal'
+            static_configs:
+              - targets:
+                  - nanase.kefiwild.net:9100
+                  - nao.kefiwild.net:9100
+                  - sayuri.kefiwild.net:9100
